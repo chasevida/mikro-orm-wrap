@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  rdb:
+    image: mariadb
+    ports:
+      - '3306:3306'
+    volumes:
+      - sandbox:/var/lib/mysql
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: sandbox
+    networks:
+      - sandbox_net
+  rdb_admin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - '8001:80'
+    environment:
+      PMA_HOST: 'rdb'
+    depends_on:
+      - rdb
+    networks:
+      - sandbox_net
+
+volumes:
+  sandbox:
+
+networks:
+  sandbox_net:
+    driver: 'bridge'
