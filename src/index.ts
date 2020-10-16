@@ -32,6 +32,7 @@ const main = async () => {
 
   const updateUser = async ({ id, ...userParams }: Partial<UserVM>) => {
     const user = await orm.em.findOne(User, { id }, ['emails'])
+    // Expecting child collection to be updated also
     wrap(user).assign(userParams, {
       em: orm.em,
       mergeObjects: true,
